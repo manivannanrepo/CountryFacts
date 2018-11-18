@@ -14,6 +14,7 @@ import com.wipro.pes.countryfacts.R;
 import com.wipro.pes.countryfacts.view.adapter.CountryFactsRecyclerViewAdapter;
 import com.wipro.pes.countryfacts.viewmodel.CountryFactsViewModel;
 
+
 public class CountryFactsActivity extends AppCompatActivity {
 
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -35,7 +36,7 @@ public class CountryFactsActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                countryFactsViewModel.fetchCountryFacts();
+                countryFactsViewModel.fetchCountryFacts(CountryFactsActivity.this);
             }
         });
     }
@@ -46,9 +47,12 @@ public class CountryFactsActivity extends AppCompatActivity {
         countryFactsRecyclerView.setAdapter(countryFactsRecyclerViewAdapter);
     }
 
+    /**
+     * Setup LiveData Observers. Observe Country Facts
+     */
     private void setupData() {
         countryFactsViewModel = ViewModelProviders.of(this).get(CountryFactsViewModel.class);
-        countryFactsViewModel.getFactsListLiveData().observe(this, new Observer<Facts>() {
+        countryFactsViewModel.getFactsListLiveData(this).observe(this, new Observer<Facts>() {
             @Override
             public void onChanged(@Nullable Facts facts) {
                 updateCountryFacts(facts);

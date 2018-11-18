@@ -16,8 +16,13 @@ public class Facts implements Serializable {
         this.title = title;
     }
 
+    public void setRows(List<Row> rows) {
+        this.rows = rows;
+    }
+
     public List<Row> getRows() {
         return rows;
+
     }
 
 }

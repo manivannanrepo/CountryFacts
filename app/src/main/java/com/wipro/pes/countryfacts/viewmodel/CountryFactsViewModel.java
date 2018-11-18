@@ -3,6 +3,7 @@ package com.wipro.pes.countryfacts.viewmodel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
@@ -28,15 +29,15 @@ public class CountryFactsViewModel extends AndroidViewModel {
         this.countryFactsApplication = (CountryFactsApplication) application;
     }
 
-    public MutableLiveData<Facts> getFactsListLiveData() {
+    public MutableLiveData<Facts> getFactsListLiveData(Context context) {
 
-        fetchCountryFacts();
+        fetchCountryFacts(context);
 
         return factsListLiveData;
     }
 
-    public void fetchCountryFacts() {
-        if (Utils.getInstance().isNetworkConnected(countryFactsApplication.getApplicationContext())) {
+    public void fetchCountryFacts(Context context) {
+        if (Utils.getInstance().isNetworkConnected(context)) {
             Call<Facts> factsCall = new RetrofitModule(countryFactsApplication.getString(R.string.base_url)).provideApiService().getFacts();
             factsCall.enqueue(new Callback<Facts>() {
                 @Override
@@ -53,7 +54,7 @@ public class CountryFactsViewModel extends AndroidViewModel {
             });
         } else {
             networkStatus.setValue(false);
-            Toast.makeText(countryFactsApplication.getApplicationContext(), countryFactsApplication.getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.network_error), Toast.LENGTH_SHORT).show();
         }
     }
 

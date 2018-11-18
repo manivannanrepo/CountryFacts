@@ -67,7 +67,7 @@ public class CountryFactsActivityTest {
         final CountDownLatch signal = new CountDownLatch(1);
         final Facts[] facts = new Facts[1];
         CountryFactsViewModel countryFactsViewModel = ViewModelProviders.of(countryFactsActivity).get(CountryFactsViewModel.class);
-        countryFactsViewModel.getFactsListLiveData().observe(countryFactsActivity, new Observer<Facts>() {
+        countryFactsViewModel.getFactsListLiveData(countryFactsActivity).observe(countryFactsActivity, new Observer<Facts>() {
             @Override
             public void onChanged(@Nullable Facts fact_local) {
                 facts[0] = fact_local;
